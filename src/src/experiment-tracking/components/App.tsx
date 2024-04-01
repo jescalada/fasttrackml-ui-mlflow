@@ -90,7 +90,7 @@ class App extends Component {
     });
 
     fetch(`/chooser/namespaces`)
-    .then((response) => response.json())
+      .then((response) => response.json())
       .then((data) => {
         this.setState({
           namespaces: data.map((item: { code: any }) => item.code),
