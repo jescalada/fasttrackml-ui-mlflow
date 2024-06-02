@@ -13,6 +13,8 @@
     <title>FastTrackML (classic)</title>
     <script>
       const found = window.location.pathname.match(/^(\/ns\/[^/]+\/)mlflow/);
+      const prefix = found ? found[1] : '/';
+      window.PREFIX = prefix;
       window.API_BASE_PATH = found ? found[1] : '/';
     </script>
   </head>
