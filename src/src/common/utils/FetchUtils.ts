@@ -106,7 +106,18 @@ export const yamlResponseParser = ({ resolve, response }: any) =>
 export const defaultError = ({ reject, response, err }: any) => {
   console.error('Fetch failed: ', response || err);
   if (response) {
-    response.text().then((text: any) => reject(new ErrorWrapper(text, response.status)));
+    response.text().then((text: string) => {
+      try {
+        const json = JSON.parse(text);
+        // If user is not authorized, redirect to login page
+        if (json.error_code === 'RESOURCE_DOES_NOT_EXIST') {
+          window.location.href = '/';
+        }
+        reject(new ErrorWrapper(json, response.status));
+      } catch (e) {
+        reject(new ErrorWrapper(text, response.status));
+      }
+    });
   } else if (err) {
     reject(new ErrorWrapper(err, 500));
   }
